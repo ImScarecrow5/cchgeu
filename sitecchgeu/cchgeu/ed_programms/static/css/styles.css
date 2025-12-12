@@ -1,4 +1,276 @@
-body{
-    font-family: Verdana;
-    }
-h1{color:navy;}
+/* Общие стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Верхняя панель */
+.top-bar {
+    background-color: #222;
+    color: white;
+    padding: 5px 0;
+    font-size: 14px;
+}
+
+.top-bar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-bar-left a,
+.top-bar-right a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.top-bar-right .lang-flag {
+    font-size: 18px;
+}
+
+/* Главное меню */
+.main-menu {
+    background-color: #f0f0f0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.main-menu ul {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.main-menu li {
+    margin: 0 20px;
+}
+
+.main-menu a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 5px 10px;
+    transition: color 0.3s;
+}
+
+.main-menu a:hover {
+    color: #007acc;
+}
+
+/* Шапка */
+.header {
+    background-color: white;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo img {
+    width: 60px;
+    height: auto;
+}
+
+.university-name h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.university-name p {
+    font-size: 14px;
+    margin: 0;
+    color: #666;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-box .info-link {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.search-box .search-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #555;
+}
+
+.search-box .search-btn:hover {
+    color: #007acc;
+}
+
+/* Вторичное меню */
+.secondary-menu {
+    background-color: #2c3e50;
+    padding: 10px 0;
+}
+
+.secondary-menu ul {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    gap: 30px;
+}
+
+.secondary-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 5px 10px;
+    transition: color 0.3s;
+}
+
+.secondary-menu a:hover {
+    color: #bdc3c7;
+}
+
+/* Хлебные крошки */
+.breadcrumbs {
+    background-color: #f5f5f5;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+.breadcrumbs .container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.breadcrumbs a {
+    color: #007acc;
+    text-decoration: none;
+}
+
+.breadcrumbs span {
+    color: #555;
+}
+
+/* Основной контент */
+.main-content {
+    padding: 30px 0;
+}
+
+.main-content .container {
+    display: flex;
+    gap: 30px;
+}
+
+/* Боковое меню */
+.sidebar {
+    width: 250px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    padding: 20px 0;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar li {
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar li:last-child {
+    border-bottom: none;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    transition: color 0.3s;
+}
+
+.sidebar a:hover {
+    color: #007acc;
+}
+
+.sidebar .active {
+    background-color: #2c3e50;
+}
+
+.sidebar .active a {
+    color: white;
+    font-weight: bold;
+}
+
+/* Основной блок */
+.content {
+    flex: 1;
+}
+
+.content h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    text-transform: uppercase;
+}
+
+/* Футер */
+.footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 30px;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.fa-telegram-plane:before {
+    content: "\f2c6";
+}
+
+.icon a {
+    color: #B99F6E;
+    display: flex;
+    align-items: center;
+}
+
+.fab {
+    font-family: "Font Awesome 6 Brands";
+    font-weight: 400;
+}

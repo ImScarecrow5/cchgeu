@@ -1,5 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .parser_fa import get_programs_by_faculty_and_levels, get_all_faculties
+from django.http import HttpResponse, JsonResponse
 
 def index(request):
-    return render(request, "index.html")
+    faculty = request.GET.get('faculty', '')
+    levels = request.GET.get('levels', '').split(',') if request.GET.get('levels') else []
+    programs = get_programs_by_faculty_and_levels(faculty, levels)
+    return JsonResponse(programs, safe=False)
