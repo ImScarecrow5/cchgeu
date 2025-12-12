@@ -27,7 +27,8 @@ product_patterns = [
 
 
 urlpatterns = [
-    path('api/programs/', views.index,  name='programs_api'),
+    path('', views.index, name='index'),
+    path('get-faculty-programs/', views.get_faculty_programs, name='get_faculty_programs'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

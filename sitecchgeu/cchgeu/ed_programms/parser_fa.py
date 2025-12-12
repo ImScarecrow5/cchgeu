@@ -3,8 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 from typing import List, Dict
 
-# Внутреннее кэширование (можно заменить на Django cache позже)
+# Внутреннее кэширование
 _programs = None
+
 
 def _fetch_and_parse():
     global _programs
@@ -24,13 +25,10 @@ def _fetch_and_parse():
 
     rows = table.find_all('tr')
     programs = []
-    current_level = None
 
     for row in rows:
+        # Пропускаем заголовки таблицы и разделители
         if row.get('bgcolor') == "#f5f5f5" and row.get('align') == "center":
-            cells = row.find_all('td')
-            if cells:
-                current_level = cells[0].get_text(strip=True)
             continue
 
         if row.find('th'):
@@ -40,12 +38,32 @@ def _fetch_and_parse():
         if len(cells) < 4:
             continue
 
-        program_name = cells[1].get_text(strip=True)
-        level = cells[2].get_text(strip=True) or current_level
-        faculty_cell = cells[3]
-        faculty = faculty_cell.get_text(strip=True)
+        # Получаем номер и название программы
+        program_cell = cells[1].find('a')
+        if program_cell:
+            program_name = program_cell.text.strip()
+        else:
+            program_name = cells[1].get_text(strip=True)
+
+        # Получаем уровень образования
+        level = cells[2].get_text(strip=True)
+
+        # Получаем факультет
+        faculty_cell = cells[3].find('a')
+        if faculty_cell:
+            faculty = faculty_cell.text.strip()
+        else:
+            faculty = cells[3].get_text(strip=True)
+
+        # Извлекаем код программы из названия (например, "07.03.01")
+        code = ""
+        import re
+        match = re.search(r'(\d{2}\.\d{2}\.\d{2})', program_name)
+        if match:
+            code = match.group(1)
 
         programs.append({
+            "code": code,
             "program": program_name,
             "level": level,
             "faculty": faculty
@@ -54,23 +72,58 @@ def _fetch_and_parse():
     _programs = programs
     return programs
 
+
 def get_all_programs() -> List[Dict[str, str]]:
     return _fetch_and_parse()
 
-def normalize_level(level: str) -> str:
-    if '(' in level:
-        return level.split('(', 1)[0].strip()
-    return level.strip()
 
-def get_programs_by_faculty_and_levels(faculty: str, levels: List[str]) -> List[Dict[str, str]]:
+def get_programs_by_faculty(faculty: str) -> List[Dict[str, str]]:
     all_programs = get_all_programs()
-    normalized_levels = {normalize_level(l) for l in levels}
     result = []
     for p in all_programs:
-        if p["faculty"] == faculty and normalize_level(p["level"]) in normalized_levels:
+        if p["faculty"] and p["faculty"].strip() and p["faculty"].strip() == faculty:
             result.append(p)
     return result
 
+
 def get_all_faculties() -> List[str]:
     all_programs = get_all_programs()
-    return sorted({p["faculty"] for p in all_programs})
+    # Фильтруем пустые строки и сортируем уникальные факультеты
+    faculties_set = set()
+    for p in all_programs:
+        if p["faculty"] and p["faculty"].strip():
+            faculties_set.add(p["faculty"].strip())
+    return sorted(faculties_set)
+
+
+print("=" * 80)
+print("ТЕСТ ПАРСЕРА")
+print("=" * 80)
+
+# Получаем все факультеты
+faculties = get_all_faculties()
+print(f"Всего факультетов: {len(faculties)}")
+print("Первые 10 факультетов:")
+for i, f in enumerate(faculties[:10], 1):
+    print(f"{i}. {f}")
+
+# Тестируем один факультет
+if faculties:
+    test_faculty = faculties[0]
+    print(f"\nТестируем факультет: {test_faculty}")
+
+    programs = get_programs_by_faculty(test_faculty)
+    print(f"Найдено программ: {len(programs)}")
+
+    if programs:
+        print("Первые 3 программы:")
+        for i, p in enumerate(programs[:3], 1):
+            print(f"{i}. Код: {p['code']}")
+            print(f"   Название: {p['program'][:80]}...")
+            print(f"   Уровень: {p['level']}")
+            print(f"   Факультет: {p['faculty']}")
+            print()
+
+# Получаем все программы
+all_programs = get_all_programs()
+print(f"Всего программ на сайте: {len(all_programs)}")

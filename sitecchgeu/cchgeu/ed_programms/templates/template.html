@@ -248,95 +248,456 @@
 	<div class="filter-row">
 		<span class="filter-label">Уровень образования</span>
 		<div class="checkbox-group" id="group1">
-			<label class="checkbox-item"><input type="checkbox"> Бакалавриат</label>
-			<label class="checkbox-item"><input type="checkbox"> Специалитет</label>
-			<label class="checkbox-item"><input type="checkbox"> СПО</label>
-			<label class="checkbox-item"><input type="checkbox"> Аспирантура</label>
-			<label class="checkbox-item"><input type="checkbox"> Магистратура</label>
+			<label class="checkbox-item">
+				<input type="checkbox" value="Бакалавриат" onchange="handleLevelFilterChange()">
+				Бакалавриат
+			</label>
+			<label class="checkbox-item">
+				<input type="checkbox" value="Специалитет" onchange="handleLevelFilterChange()">
+				Специалитет
+			</label>
+			<label class="checkbox-item">
+				<input type="checkbox" value="СПО" onchange="handleLevelFilterChange()">
+				СПО
+			</label>
+			<label class="checkbox-item">
+				<input type="checkbox" value="Аспирантура" onchange="handleLevelFilterChange()">
+				Аспирантура
+			</label>
+			<label class="checkbox-item">
+				<input type="checkbox" value="Магистратура" onchange="handleLevelFilterChange()">
+				Магистратура
+			</label>
 		</div>
 		<div class="settings-icon" onclick="toggleGroup('group1')">
-            <img src="{% static 'images/faculty_filter.svg' %}">
-        </div>
+			<img src="{% static 'images/faculty_filter.svg' %}">
+		</div>
 	</div>
+
+	<form id="facultyForm" method="POST" style="display: none;">
+    	{% csrf_token %}
+    	<input type="hidden" name="selected_faculty" id="selectedFacultyInput">
+	</form>
 
 	<!-- Блок выбора факультета и таблицы -->
 	<div class="faculty-select-container">
 		<label for="faculty-select">Выберите факультет</label>
 		<div class="custom-select">
-			<select id="faculty-select">
+			<select id="faculty-select" onchange="handleFacultyChange()">
 				<option value="" disabled selected>Выберите факультет</option>
-				{% for f in faculty%}
-				<option value="fak1">{{ f }}</option>
+				{% for f in faculties %}
+				<option value="{{ f }}">{{ f }}</option>
 				{% endfor %}
 			</select>
 		</div>
 
-		<table class="specialty-table">
-			<thead>
-				<tr class="sort">
-					<th>Код</th>
-					<th class="test"><span class="sort-arrow"></span>Название</th>
-					<th>Степень</th>
-				</tr>
-			</thead>
-			<tbody>
+		<!-- В index.html -->
+
+    <table class="specialty-table">
+		<thead>
+			<tr class="sort">
+				<th width="15%" data-sort="code" data-sort-type="text">
+					Код <span class="sort-arrow">↕</span>
+				</th>
+				<th width="55%" data-sort="name" data-sort-type="text">
+					Название программы <span class="sort-arrow">↕</span>
+				</th>
+				<th width="30%" data-sort="level" data-sort-type="text">
+					Уровень образования <span class="sort-arrow">↕</span>
+				</th>
+        	</tr>
+		</thead>
+		<tbody id="programsTableBody">
+			{% if programs %}
+				{% for program in programs %}
 				<tr>
-					<td>03.09.02</td>
-					<td>Информационные системы</td>
-					<td>Бакалавриат (3+)</td>
+					<td>{{ program.code|default:"-" }}</td>
+					<td>{{ program.program|default:"-" }}</td>
+					<td>{{ program.level|default:"-" }}</td>
 				</tr>
+				{% endfor %}
+			{% else %}
 				<tr>
-					<td>03.09.03</td>
-					<td>Компьютерная безопасность</td>
-					<td>Бакалавриат (3+)</td>
+					<td colspan="3" style="text-align: center; padding: 20px;">
+						{% if selected_faculty %}
+							Для факультета "{{ selected_faculty }}" программы не найдены
+						{% else %}
+							Выберите факультет для отображения программ
+						{% endif %}
+					</td>
 				</tr>
-				<tr>
-					<td>03.09.07</td>
-					<td>Отраслевые системы и технологии</td>
-					<td>Бакалавриат (3+)</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+			{% endif %}
+		</tbody>
+	</table>
 
 	<script>
-		function updatePrograms() {
-		const faculty = document.getElementById('faculty-select').value;
-		const levels = Array.from(document.querySelectorAll('input[name="level"]:checked'))
-							.map(cb => cb.value);
+		// Глобальные переменные
+		let currentPrograms = [];
+		let currentFaculty = '';
+		let currentSort = {
+			column: null,
+			direction: 'asc'
+		};
 
-		fetch(`/api/programs/?faculty=${encodeURIComponent(faculty)}&levels=${levels.map(l => encodeURIComponent(l)).join(',')}`)
-			.then(response => response.json())
-			.then(data => {
-				// Обновить таблицу программ
-				const tbody = document.querySelector('.specialty-table tbody');
-				tbody.innerHTML = '';
-				data.forEach(p => {
-					const row = `<tr>
-						<td>${p.code || ''}</td>
-						<td>${p.program}</td>
-						<td>${p.level}</td>
-					</tr>`;
-					tbody.innerHTML += row;
-				});
-			});
-	}
-
-		// Привязать к событиям
-		document.getElementById('faculty-select').addEventListener('change', updatePrograms);
-		document.querySelectorAll('input[name="level"]').forEach(cb => {
-			cb.addEventListener('change', updatePrograms);
-		});
-
+		// Функция переключения видимости группы чекбоксов
 		function toggleGroup(groupId) {
 			const group = document.getElementById(groupId);
 			group.classList.toggle('visible');
 		}
+
+		// Получение выбранных уровней образования
+		function getSelectedLevels() {
+			const checkboxes = document.querySelectorAll('#group1 input[type="checkbox"]:checked');
+			const selectedLevels = [];
+			checkboxes.forEach(checkbox => {
+				selectedLevels.push(checkbox.value);
+			});
+			return selectedLevels;
+		}
+
+		// Обработчик изменения фильтра по уровням
+		function handleLevelFilterChange() {
+			if (currentFaculty) {
+				loadFacultyPrograms(currentFaculty);
+			}
+		}
+
+		// Обработчик выбора факультета
+		function handleFacultyChange() {
+			const select = document.getElementById('faculty-select');
+			currentFaculty = select.value;
+
+			if (!currentFaculty) {
+				resetTable();
+				return;
+			}
+
+			loadFacultyPrograms(currentFaculty);
+		}
+
+		// Сброс таблицы
+		function resetTable() {
+			const tableBody = document.getElementById('programsTableBody');
+			tableBody.innerHTML = `
+				<tr>
+					<td colspan="3" style="text-align: center; padding: 20px;">
+						Выберите факультет для отображения программ
+					</td>
+				</tr>
+			`;
+		}
+
+		// Основная функция загрузки программ
+		function loadFacultyPrograms(faculty) {
+			const tableBody = document.getElementById('programsTableBody');
+			tableBody.innerHTML = `
+				<tr>
+					<td colspan="3" style="text-align: center; padding: 20px;">
+						<div class="loading-spinner"></div>
+						Загрузка программ для "${faculty}"...
+					</td>
+				</tr>
+			`;
+
+			// Получаем выбранные уровни
+			const selectedLevels = getSelectedLevels();
+
+			// Формируем URL с параметрами
+			let url = `{% url 'get_faculty_programs' %}?faculty=${encodeURIComponent(faculty)}`;
+
+			// Добавляем параметры уровней
+			selectedLevels.forEach(level => {
+				url += `&levels=${encodeURIComponent(level)}`;
+			});
+
+			console.log('Fetch URL:', url);
+
+			// Отправляем запрос
+			fetch(url)
+				.then(response => {
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
+					}
+					return response.json();
+				})
+				.then(data => {
+					console.log('Получены данные:', data);
+					if (data.success) {
+						currentPrograms = data.programs;
+						updateProgramsTable(data.programs, faculty, data.count);
+					} else {
+						showError('Ошибка при загрузке программ: ' + (data.error || 'Неизвестная ошибка'));
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					showError('Ошибка соединения с сервером. Проверьте консоль разработчика.');
+				});
+		}
+
+		// Функция обновления таблицы
+		function updateProgramsTable(programs, facultyName, count) {
+			const tableBody = document.getElementById('programsTableBody');
+
+			if (!programs || programs.length === 0) {
+				tableBody.innerHTML = `
+					<tr>
+						<td colspan="3" style="text-align: center; padding: 40px; color: #666;">
+							<div style="font-size: 18px; margin-bottom: 10px;">🤷‍♂️</div>
+							<div>Для факультета <strong>"${facultyName}"</strong> программы не найдены</div>
+							<div style="font-size: 12px; margin-top: 10px;">Попробуйте выбрать другой факультет или изменить фильтры</div>
+						</td>
+					</tr>
+				`;
+				return;
+			}
+
+			// Очищаем таблицу
+			tableBody.innerHTML = '';
+
+			// Добавляем строку с количеством
+			const countRow = document.createElement('tr');
+			countRow.innerHTML = `
+				<td colspan="3" style="background-color: #f5f5f5; font-weight: bold; text-align: center;">
+					Найдено программ: ${count}
+				</td>
+			`;
+			tableBody.appendChild(countRow);
+
+			// Добавляем строки с программами
+			programs.forEach(program => {
+				const row = document.createElement('tr');
+				let extractedCode = '-';
+				let cleanName = program.name || '-';
+
+				if (program.name) {
+					// Ищем код и удаляем его из названия
+					const match = program.name.match(/^(\d{2}\.\d{2}\.\d{2})\s*(.*)/);
+					if (match) {
+						extractedCode = match[1];
+						cleanName = match[2].trim();
+					}
+				}
+
+				row.innerHTML = `
+					<td data-sort-value="${program.code}">${program.code}</td>
+					<td data-sort-value="${cleanName}">${cleanName}</td>
+					<td data-sort-value="${program.level || ''}">${program.level || '-'}</td>
+				`;
+				tableBody.appendChild(row);
+			});
+
+			// Применяем текущую сортировку
+			if (currentSort.column) {
+				sortTable(currentSort.column, currentSort.direction);
+			}
+		}
+
+		// Функция для отображения ошибки
+		function showError(message) {
+			const tableBody = document.getElementById('programsTableBody');
+			tableBody.innerHTML = `
+				<tr>
+					<td colspan="3" style="text-align: center; padding: 20px; color: red;">
+						<div style="font-size: 18px; margin-bottom: 10px;">⚠️</div>
+						${message}
+					</td>
+				</tr>
+			`;
+		}
+
+		// Функция сортировки таблицы
+		function sortTable(column, direction) {
+			const tableBody = document.getElementById('programsTableBody');
+			// Получаем все строки кроме первой (строка с количеством)
+			const rows = Array.from(tableBody.querySelectorAll('tr')).slice(1);
+
+			if (rows.length === 0) return;
+
+			// Сортируем строки
+			rows.sort((a, b) => {
+				const aValue = a.querySelector(`td:nth-child(${getColumnIndex(column)})`).getAttribute('data-sort-value') || '';
+				const bValue = b.querySelector(`td:nth-child(${getColumnIndex(column)})`).getAttribute('data-sort-value') || '';
+
+				const sortType = getSortType(column);
+
+				if (sortType === 'code') {
+					return compareCodes(aValue, bValue, direction);
+				} else {
+					return compareValues(aValue, bValue, direction, sortType);
+				}
+			});
+
+			// Сохраняем первую строку (с количеством)
+			const firstRow = tableBody.querySelector('tr:first-child');
+			tableBody.innerHTML = '';
+			if (firstRow) {
+				tableBody.appendChild(firstRow);
+			}
+
+			// Добавляем отсортированные строки
+			rows.forEach(row => tableBody.appendChild(row));
+
+			// Обновляем индикаторы сортировки
+			updateSortIndicators(column, direction);
+
+			// Сохраняем текущую сортировку
+			currentSort = { column, direction };
+		}
+
+		// Функция сравнения значений
+		function compareValues(a, b, direction, type = 'text') {
+			let valA = a.trim().toLowerCase();
+			let valB = b.trim().toLowerCase();
+
+			// Для числовых значений
+			if (type === 'number') {
+				valA = parseFloat(valA) || 0;
+				valB = parseFloat(valB) || 0;
+			}
+
+			// Для дат
+			if (type === 'date') {
+				valA = new Date(valA).getTime();
+				valB = new Date(valB).getTime();
+			}
+
+			// Сравниваем
+			if (valA < valB) return direction === 'asc' ? -1 : 1;
+			if (valA > valB) return direction === 'asc' ? 1 : -1;
+			return 0;
+		}
+
+		// Функция сравнения кодов (09.02.01)
+		function compareCodes(a, b, direction) {
+			// Приводим к общему виду для сравнения
+			const codeA = a === '-' ? '00.00.00' : a;
+			const codeB = b === '-' ? '00.00.00' : b;
+
+			// Разбиваем код на части
+			const partsA = codeA.split('.').map(Number);
+			const partsB = codeB.split('.').map(Number);
+
+			// Сравниваем каждую часть
+			for (let i = 0; i < 3; i++) {
+				if (partsA[i] !== partsB[i]) {
+					return direction === 'asc'
+						? partsA[i] - partsB[i]
+						: partsB[i] - partsA[i];
+				}
+			}
+
+			return 0;
+		}
+
+		// Получаем индекс столбца по его названию
+		function getColumnIndex(columnName) {
+			const headers = {
+				'code': 1,
+				'name': 2,
+				'level': 3
+			};
+			return headers[columnName] || 1;
+		}
+
+		// Определяем тип сортировки для столбца
+		function getSortType(columnName) {
+			const types = {
+				'code': 'code',
+				'name': 'text',
+				'level': 'text'
+			};
+			return types[columnName] || 'text';
+		}
+
+		// Обновляем индикаторы сортировки
+		function updateSortIndicators(column, direction) {
+			// Сбрасываем все индикаторы
+			document.querySelectorAll('th[data-sort]').forEach(th => {
+				th.classList.remove('sorted', 'sorted-asc', 'sorted-desc');
+			});
+
+			// Устанавливаем индикатор для текущего столбца
+			const currentTh = document.querySelector(`th[data-sort="${column}"]`);
+			if (currentTh) {
+				currentTh.classList.add('sorted', `sorted-${direction}`);
+			}
+		}
+
+		// Обработчик клика на заголовок
+		function handleHeaderClick(event) {
+			const th = event.target.closest('th[data-sort]');
+			if (!th) return;
+
+			const column = th.getAttribute('data-sort');
+
+			// Определяем направление сортировки
+			let direction = 'asc';
+			if (currentSort.column === column) {
+				direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+			}
+
+			// Сортируем таблицу
+			sortTable(column, direction);
+		}
+
+		// Функция поиска по программам (для поля поиска)
+		function filterPrograms() {
+			const searchInput = document.getElementById('searchPrograms');
+			const searchTerm = searchInput.value.toLowerCase().trim();
+
+			if (!currentFaculty || !currentPrograms.length) {
+				return;
+			}
+
+			// Если поисковый запрос пустой, показываем все программы
+			if (searchTerm === '') {
+				updateProgramsTable(currentPrograms, currentFaculty, currentPrograms.length);
+				return;
+			}
+
+			// Фильтруем программы по поисковому запросу
+			const filtered = currentPrograms.filter(program => {
+				const name = program.name || '';
+				const code = program.code || '';
+				const level = program.level || '';
+
+				return name.toLowerCase().includes(searchTerm) ||
+					   code.toLowerCase().includes(searchTerm) ||
+					   level.toLowerCase().includes(searchTerm);
+			});
+
+			// Обновляем таблицу с отфильтрованными данными
+			updateProgramsTable(filtered, currentFaculty, filtered.length);
+		}
+
+		// Инициализация
+		document.addEventListener('DOMContentLoaded', function() {
+			// Добавляем обработчики клика на заголовки
+			document.querySelectorAll('th[data-sort]').forEach(th => {
+				th.addEventListener('click', handleHeaderClick);
+			});
+
+			// Инициализируем сортировку по умолчанию
+			currentSort = { column: 'code', direction: 'asc' };
+
+			// Добавляем обработчик для поиска по Enter
+			const searchInput = document.getElementById('searchPrograms');
+			if (searchInput) {
+				searchInput.addEventListener('keyup', function(event) {
+					if (event.key === 'Enter') {
+						filterPrograms();
+					}
+				});
+			}
+
+			// Показываем начальное состояние таблицы
+			resetTable();
+		});
 	</script>
 </div>
 
 	</div>
-    </header>
     {% block main %}{% endblock main %}
     <div>{% block footer%}{% endblock footer %}
 </body>

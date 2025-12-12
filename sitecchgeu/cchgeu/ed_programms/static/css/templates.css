@@ -675,3 +675,37 @@ body, header, .header-top {
     align-items: center;
     justify-content: center;
 }
+
+
+.sort-arrow {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 12px;
+    color: #666;
+    transition: transform 0.3s;
+}
+
+th[data-sort].sorted-asc .sort-arrow {
+    transform: rotate(180deg);
+    color: #007bff;
+}
+
+th[data-sort].sorted-desc .sort-arrow {
+    color: #007bff;
+}
+
+th[data-sort] {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+th[data-sort]:hover {
+    background-color: #f5f5f5;
+}
+
+th[data-sort].sorted {
+    background-color: #e8f4ff;
+    font-weight: bold;
+}
