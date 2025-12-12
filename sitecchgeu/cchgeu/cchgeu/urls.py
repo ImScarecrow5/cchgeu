@@ -29,6 +29,7 @@ product_patterns = [
 urlpatterns = [
     path('', views.index, name='index'),
     path('get-faculty-programs/', views.get_faculty_programs, name='get_faculty_programs'),
+    path('vizitka/', views.vizit, name='vizit'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

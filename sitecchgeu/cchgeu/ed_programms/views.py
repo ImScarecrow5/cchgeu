@@ -4,6 +4,12 @@ from django.http import JsonResponse
 from .parser_fa import get_all_faculties, get_programs_by_faculty
 import re
 
+def vizit(request):
+    faculties = get_all_faculties()
+    context = {
+        'faculties': faculties,
+    }
+    return render(request, "vizitka.html", context)
 
 def index(request):
     faculties = get_all_faculties()

@@ -1,0 +1,678 @@
+body, header, .header-top {
+	margin: 0;
+	padding: 0;
+}
+
+.header-top {
+	background-color: #263145;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 3em;
+}
+
+.socials{
+}
+
+.right-group{
+  display:flex;
+  align-items: center;
+  gap: 2em;
+}
+.blind {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.blind p {
+	color: white;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  display: block;
+  padding: 10px 16px;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.dropdown-toggle:hover {
+  background: #e0e0e0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #263145;
+  border: 1px solid #444;
+  border-radius: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  min-width: 60px;
+  display: none; /* скрыто */
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu li {
+  margin: 0;
+}
+
+.dropdown-menu a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+.dropdown-menu a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.high-menu .dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 2em;
+}
+
+.high-menu .dropdown-toggle {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.high-menu .dropdown-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.high-menu .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #263145;
+  border: 1px solid #444;
+  border-radius: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 12px;
+  min-width: 180px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  color: white;
+  display: none;
+}
+
+.high-menu .dropdown:hover .dropdown-menu {
+  display: grid;
+  grid-template-rows: repeat(6, minmax(32px, auto));
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, max-content);
+  gap: 6px 16px;
+  width: max-content;
+  position:absolute;
+}
+
+.high-menu .dropdown-menu li {
+  margin: 0;
+  padding: 0;
+}
+
+.high-menu .dropdown-menu a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.high-menu .dropdown-menu a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.high-menu {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 0 2em;
+  height: 40px;
+  background: #f5f5f5;
+}
+
+.dropdown-high-menu{
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #263145;
+  border: 1px solid #444;
+  border-radius: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 30px 0;
+  min-width: 60px;
+  display: none;
+  z-index: 15;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.high-menu .dropdown-menu {
+  top: 100%;
+  left: 0;
+  right: auto;
+}
+
+.table-menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-auto-rows: minmax(32px, auto);
+  gap: 4px 16px;
+  padding: 12px;
+  max-width: 600px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo img {
+  height: 100px;
+}
+
+.right-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.right-header a {
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3em;
+  min-height: 100px; /* или другая высота под ваш дизайн */
+  background-color: white;
+}
+
+/* Логотип слева */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0; /* не сжимается */
+}
+
+.logo img {
+  height: 80px; /* подстрой под реальный логотип */
+}
+
+.logo p {
+  margin: 0;
+  font-weight: bold;
+  color: #263145;
+  font-size: 18px;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+/* Стили поиска */
+.search {
+  display: flex;
+  width: 100%;
+}
+
+.search form {
+  display: flex;
+  width: 100%;
+}
+
+.search input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  font-size: 14px;
+}
+
+.search button {
+  background: #263145;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.search button:hover {
+  background: #3a4a65;
+}
+
+.left-sidebar-menu {
+  width: 280px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.left-sidebar-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.left-sidebar-menu li {
+  padding: 12px 20px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.left-sidebar-menu li:last-child {
+  border-bottom: none;
+}
+
+.left-sidebar-menu li:hover,
+.left-sidebar-menu li.active {
+  background-color: #263145;
+  color: white;
+}
+
+.left-sidebar-menu a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.left-sidebar-menu .active a {
+  color: white;
+}
+
+.main-content{
+  display: flex;
+  justify-content: center;
+}
+
+.icons{
+  display:flex;
+  justify-content: space-between;
+}
+
+.icon{
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.info-blocks {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            max-width: 1000px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: calc(20% - 10px); /* 5 элементов с небольшими отступами */
+        }
+
+        .info-icon {
+            font-size: 40px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+
+        .accordion {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.accordion-item {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    background: #f8f9fa;
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #2c3e50;
+    transition: background 0.2s;
+}
+
+.accordion-header:hover {
+    background: #e9ecef;
+}
+
+.accordion-header::after {
+    content: '▼';
+    font-size: 12px;
+    transition: transform 0.3s;
+}
+
+.accordion-header.active::after {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    padding: 0 20px;
+    display: none;
+}
+
+.accordion-content.open {
+    display: block;
+    padding: 15px 20px;
+}
+
+/* Сетка дисциплин (внутри основного блока и внутри семестров) */
+.discipline-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.discipline-card {
+    background: #2c3e50;
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.discipline-card h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+}
+
+.discipline-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* Аккордеон семестров (внутри "Дисциплины...") */
+.semester-list-accordion {
+    margin-top: 25px;
+    width: 100%;
+}
+
+.semester-item {
+    margin-bottom: 12px;
+}
+
+.semester-header {
+    padding: 12px 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #2c3e50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.semester-header::after {
+    content: '▶';
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.semester-header.open::after {
+    transform: rotate(90deg);
+}
+
+/* Ключевое: используем display, а не max-height */
+.semester-content {
+    display: none;
+}
+
+.semester-content.open {
+    display: block;
+    padding: 15px 0 0 0;
+}
+
+/* Дополнительно: отступы и оформление списков (если есть) */
+.discipline-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.discipline-list li {
+    padding: 6px 0;
+    color: #444;
+    position: relative;
+}
+
+.discipline-list li::before {
+    content: '•';
+    color: #2c3e50;
+    font-weight: bold;
+    position: absolute;
+    left: -15px;
+}
+
+        .director-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    max-width: 400px;
+    padding: 25px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.director-photo img {
+    width: 180px;
+    height: 220px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.director-info h2 {
+    font-size: 16px;
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.director-info h1 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.info-section {
+    text-align: left;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.info-section h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.link {
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.5;
+    display: block;
+}
+
+.link:hover {
+    text-decoration: underline;
+    color: #0055aa;
+}
+
+.semester-list-accordion {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.semester-item {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+}
+
+.semester-item:last-child {
+    margin-bottom: 0;
+}
+
+.semester-header {
+    padding: 12px 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #2c3e50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.semester-header::after {
+    content: '▶';
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.semester-header.open::after {
+    transform: rotate(90deg);
+}
+
+
+.discipline-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.discipline-list li {
+    padding: 6px 0;
+    color: #444;
+    position: relative;
+}
+
+.discipline-list li::before {
+    content: '•';
+    color: #2c3e50;
+    font-weight: bold;
+    position: absolute;
+    left: -15px;
+}
+
+.discipline-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.discipline-card-1 {
+    background: url("1.png");
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    width: 280px;
+    height: 150px;
+}
+
+.discipline-card-2 {
+    background: url("2.png");
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    width: 280px;
+    height: 150px;
+}
+
+.discipline-card-3 {
+    background: url("3.png");
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    width: 280px;
+    height: 150px;
+}
+
+.discipline-card-4 {
+    background: url("4.png");
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    width: 280px;
+    height: 150px;
+}
+
+.discipline-card h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+}
+
+.discipline-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    opacity: 0.9;
+}

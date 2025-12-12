@@ -1,0 +1,220 @@
+{% extends "template.html" %}
+{% load static %}
+{% block ink %}<link rel="stylesheet" href="{% static 'css/vizitka.css' %}"> {% endblock ink %}
+{% block title %}Обр. Программа{% endblock title %}
+{% block main %}
+	<div class="main-content">
+		<div class="left-sidebar-menu">
+		<ul>
+			<li class="active"><a href="#">О программе</a></li>
+			<li><a href="#">Расписание</a></li>
+			<li><a href="#">Календарные учебные планы</a></li>
+		</ul>
+		</div>
+		<div class="middle">
+			<h1>09.03.02 Информационные системы и технологии <br>Профиль "Информационные системы и технологии цифровизации"</h1>
+			<div class="info-blocks">
+				<div class="info-item">
+					<div class="info-icon"><img src="{% static 'images/study-degree.jpg' %}" alt=""></div>
+					<div class="info-text">Бакалавриат</div>
+				</div>
+				
+				<div class="info-item">
+					<div class="info-icon"><img src="{% static 'images/study-time.jpg' %}" alt=""></div>
+					<div class="info-text">Очная форма</div>
+				</div>
+
+				<div class="info-item">
+					<div class="info-icon"><img src="{% static 'images/lang.jpg' %}" alt=""></div>
+					<div class="info-text">Русский язык</div>
+				</div>
+
+				<div class="info-item">
+					<div class="info-icon"><img src="{% static 'images/study-place.jpg' %}" alt=""></div>
+					<div class="info-text">Бюджетные и контрактные места</div>
+				</div>
+				
+				<div class="info-item">
+					<div class="info-icon"><img src="{% static 'images/accreditation.jpg' %}" alt=""></div>
+					<div class="info-text">Государственная аккредитация бессрочно</div>
+				</div>
+			</div>
+			
+			<div class="accordion">
+
+    <div class="accordion-item">
+        <div class="accordion-header">СОДЕРЖАНИЕ ОБРАЗОВАТЕЛЬНОЙ ПРОГРАММЫ</div>
+        <div class="accordion-content">
+            <p>В настоящее время термин «цифровизация» используется в узком и широком смысле. Под цифровизацией в узком смысле понимается преобразование информации в цифровую форму, которое в большинстве случаев ведёт к снижению издержек, появлению новых возможностей и т.д. Под цифровизацией в широком смысле понимается современный общемировой тренд развития экономики и общества, который основан на преобразовании информации в цифровую форму и приводит к повышению эффективности экономики и улучшению качества жизни.</p>
+            <br>
+            <p><strong>«Отечественные специалисты не просто предлагают наилучшие уникальные программные решения, а по сути создают новую сферу знаний, новую среду для развития экономики и жизни»</strong></p>
+            <p><em>Владимир Владимирович Путин</em></p>
+            <br>
+            <p>Поэтому выпускники данной образовательной программы уже сейчас востребованы на рынке труда и будут долго оставаться на передовых позициях в IT отрасли.</p>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+    <div class="accordion-header">ДИСЦИПЛИНЫ ОБРАЗОВАТЕЛЬНОЙ ПРОГРАММЫ</div>
+    <div class="accordion-content">
+        <div class="semester-list-accordion">
+            <div class="semester-item">
+    <div class="semester-header">1 семестр</div>
+    <div class="semester-content">
+        <!-- Здесь должна быть сетка карточек -->
+        <div class="discipline-grid">
+            <div class="discipline-card-1">
+                <h3>Основы программирования и алгоритмизации</h3>
+                <p><strong>Лектор:</strong> Минакова О. В.</p>
+                <p><strong>Учебный план</strong></p>
+            </div>
+            <div class="discipline-card-2">
+                <h3>Архитектура ЭВМ</h3>
+                <p><strong>Лектор:</strong> Рязанцев С. В.</p>
+                <p><strong>Учебный план</strong></p>
+            </div>
+			<div class="discipline-card-3">
+                <h3>Математика</h3>
+                <p><strong>Лектор:</strong> Борщ Н.А.</p>
+                <p><strong>Учебный план</strong></p>
+
+            </div>
+            <div class="discipline-card-4">
+                <h3>История России</h3>
+                <p><strong>Лектор:</strong> Дорош А.А.</p>
+                <p><strong>Учебный план</strong></p>
+            </div>
+			
+        </div>
+    </div>
+</div>
+
+            <div class="semester-item">
+                <div class="semester-header">2 семестр</div>
+                <div class="semester-content">
+                    <ul class="discipline-list">
+                        <li>История России (Дорош М. Н.)</li>
+                        <li>Математика (продолжение)</li>
+                        <li>Дискретная математика</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="semester-item">
+                <div class="semester-header">3 семестр</div>
+                <div class="semester-content">
+                    <ul class="discipline-list">
+                        <li>Теория вероятностей</li>
+                        <li>Базы данных</li>
+                        <li>Операционные системы</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="semester-item">
+                <div class="semester-header">4 семестр</div>
+                <div class="semester-content">
+                    <ul class="discipline-list">
+                        <li>Компьютерные сети</li>
+                        <li>Машинное обучение</li>
+                        <li>Информационная безопасность</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="accordion-item">
+        <div class="accordion-header">ПРЕПОДАВАТЕЛИ</div>
+        <div class="accordion-content">
+            <p>Наши преподаватели — это опытные практики и теоретики, имеющие научные степени и реальный опыт работы в IT-индустрии.</p>
+            <p>Каждый курс ведёт профессор или доцент с опытом не менее 5 лет в сфере разработки и обучения.</p>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header">ТРУДОУСТРОЙСТВО</div>
+        <div class="accordion-content">
+            <p>Выпускники программы имеют высокий уровень трудоустройства — более 95% находят работу в течение 3 месяцев после окончания.</p>
+            <p>Партнёры: Яндекс, Сбер, VK, Тинькофф, Газпромнефть, Ростелеком и др.</p>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header">УЧЕБНЫЕ И ПРОИЗВОДСТВЕННЫЕ ПРАКТИКИ</div>
+        <div class="accordion-content">
+            <p>Программа включает 3 этапа практик:</p>
+            <ul>
+                <li>Учебная практика (1 семестр)</li>
+                <li>Производственная практика (3–4 семестр)</li>
+                <li>Преддипломная практика (5 семестр)</li>
+            </ul>
+            <p>Практики проходят в компаниях-партнёрах, что даёт реальный опыт и шанс получить предложение о работе.</p>
+        </div>
+    </div>
+</div>
+<script src="accordion.js"></script>
+		</div>
+		<div class="director-card">
+    	<h2>Кандидат технических наук, доцент</h2>
+			<div class="director-photo">
+        <img src="{% static 'images/ivanov.jpg' %}" alt="Иванов Денис Вячеславович">
+    </div>
+    <div class="director-info">
+        <h1>Иванов Денис Вячеславович</h1>
+
+        <div class="info-section">
+            <h3>Факультет</h3>
+            <a href="#" class="link">Факультет информационных технологий и компьютерной безопасности</a>
+        </div>
+
+        <div class="info-section">
+            <h3>Кафедра</h3>
+            <a href="#" class="link">Кафедра искусственного интеллекта и цифровых технологий</a>
+        </div>
+    </div>
+</div>
+	</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Основной аккордеон (блоки: Содержание, Дисциплины, Преподаватели и т.д.)
+    const mainHeaders = document.querySelectorAll('.accordion-header');
+    mainHeaders.forEach(header => {
+        header.addEventListener('click', function () {
+            const item = this.closest('.accordion-item');
+            const content = item.querySelector('.accordion-content');
+            const isActive = item.classList.contains('active');
+
+            // Закрываем все основные блоки
+            document.querySelectorAll('.accordion-item').forEach(el => {
+                el.classList.remove('active');
+                el.querySelector('.accordion-content').classList.remove('open');
+            });
+
+            // Открываем текущий, если был закрыт
+            if (!isActive) {
+                item.classList.add('active');
+                content.classList.add('open');
+            }
+        });
+    });
+
+    // Вложенный аккордеон: семестры (можно открывать несколько)
+    const semesterHeaders = document.querySelectorAll('.semester-header');
+    semesterHeaders.forEach(header => {
+        header.addEventListener('click', function (e) {
+            e.stopPropagation(); // не срабатывает основной аккордеон
+
+            const content = this.nextElementSibling; // .semester-content
+
+            // Переключаем состояние
+            this.classList.toggle('open');
+            content.classList.toggle('open');
+            });
+        });
+    });
+</script>
+
+{% endblock main %}

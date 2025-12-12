@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="{% static "css/templates.css" %}" />
+	{% block ink %}{% endblock ink %}
     <title>{% block title %}Default title{% endblock title %}</title>
 </head>
 <body>
@@ -213,19 +214,6 @@
 			</div>
 		</div>
 	</header>
-
-	<div class="main-content">
-		<div class="sidebar-menu">
-		<ul>
-			<li class="active"><a href="#">Образовательные программы</a></li>
-			<li><a href="#">Образовательные стандарты</a></li>
-			<li><a href="#">Федеральные государственные требования</a></li>
-			<li><a href="#">Учебные планы</a></li>
-			<li><a href="#">Календарные учебные графики</a></li>
-			<li><a href="#">Методическое обеспечение</a></li>
-			<li><a href="#">Лицензирование образовательных программ</a></li>
-		</ul>
-	</div>
     {% block main %}{% endblock main %}
     {% block footer%}{% endblock footer %}
 </body>
